@@ -4,7 +4,7 @@ from leilao.dominio import Usuario, Lance, Leilao, Avaliador
 
 
 class TestAvaliador(TestCase):
-    def test_avalia(self):
+    def test_deve_retornar_o_maior_e_o_menor_valor_de_um_lance_quando_adicionamos_em_ordem_crescente(self):
         gui = Usuario('gui')
         yuri = Usuario('yuri')
         matheus = Usuario('matheus')
@@ -25,7 +25,7 @@ class TestAvaliador(TestCase):
         self.assertEqual(menor_valor_esperado, avaliador.menor_lance)
         self.assertEqual(maior_valor_esperado, avaliador.maior_lance)
 
-    def test_avalia2(self):
+    def test_deve_retornar_o_maior_e_o_menor_valor_de_um_lance_quando_adicionamos_em_ordem_decrescente(self):
         gui = Usuario('gui')
         yuri = Usuario('yuri')
         matheus = Usuario('matheus')
