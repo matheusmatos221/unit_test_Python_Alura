@@ -3,7 +3,7 @@ from unittest import TestCase
 from leilao.dominio import Usuario, Lance, Leilao
 
 
-class TestAvaliador(TestCase):
+class TestLeilao(TestCase):
 
     def setUp(self):
         self.gui = Usuario('gui')
@@ -59,20 +59,30 @@ class TestAvaliador(TestCase):
         self.assertEqual(menor_valor_esperado, self.leilao.menor_lance)
         self.assertEqual(maior_valor_esperado, self.leilao.maior_lance)
 
+    def test_deve_permitir_propor_um_lance_caso_leilao_nao_tenha_lances(self):
+        self.leilao.propoe_lance(self.lance_do_gui)
 
-    def test_deve_retornar_o_menor_e_maior_valor_quando_leilao_tiver_tres_lances_mesmo_usuario(self):
-        gui = Usuario('gui')
+        quantidade_de_lances_recebido = len(self.leilao.lances)
+        self.assertEqual(1, quantidade_de_lances_recebido)
 
-        lance_do_gui_1 = Lance(gui, 100.0)
-        lance_do_gui_2 = Lance(gui, 120.0)
-        lance_do_gui_3 = Lance(gui, 150.0)
+    # Se o ultimo usuario for diferente, deve permitir propor um lance
+    def test_deve_permitir_propor_lance_caso_o_ultimo_usuario_seja_diferente(self):
+        yuri = Usuario('yuri')
+        lance_yuri = Lance(yuri, 200.0)
 
-        self.leilao.propoe_lance(lance_do_gui_1)
-        self.leilao.propoe_lance(lance_do_gui_2)
-        self.leilao.propoe_lance(lance_do_gui_3)
+        self.leilao.propoe_lance(self.lance_do_gui)
+        self.leilao.propoe_lance(lance_yuri)
 
-        menor_valor_esperado = 100.0
-        maior_valor_esperado = 150.0
+        quantidade_lances_recebido = len(self.leilao.lances)
 
-        self.assertEqual(menor_valor_esperado, self.leilao.menor_lance)
-        self.assertEqual(maior_valor_esperado, self.leilao.maior_lance)
+        self.assertEqual(2, quantidade_lances_recebido)
+
+    # Se o ultimo usuario for o mesmo(atual), não deve permitir propor o lance
+    def test_nao_deve_permitir_propro_lance_caso_o_usuario_seja_o_mesmo(self):
+        lance_do_gui200 = Lance(self.gui, 200.0)
+        self.leilao.propoe_lance(self.lance_do_gui)
+        self.leilao.propoe_lance(lance_do_gui200)
+
+        quantidade_lances_recebidos = len(self.leilao.lances)
+
+        self.assertEqual(1, quantidade_lances_recebidos)
