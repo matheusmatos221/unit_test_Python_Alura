@@ -5,7 +5,7 @@ class Usuario:
         self.__carteira = carteira
 
     def propoe_lance(self, leilao, valor):
-        if self._valor_e_valido(valor):
+        if not self._valor_e_valido(valor):
             raise ValueError("Não pode propor um lance com valor maior que o da carteira")
 
         lance = Lance(self, valor)
@@ -22,7 +22,7 @@ class Usuario:
         return self.__carteira
 
     def _valor_e_valido(self, valor):
-        return valor > self.carteira
+        return valor <= self.carteira
 
 
 class Lance:
