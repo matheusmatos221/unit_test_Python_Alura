@@ -8,10 +8,13 @@ class Usuario:
         self.__carteira = carteira
 
     def propoe_lance(self, leilao, valor):
-        lance = Lance(self, valor)
-        leilao.propoe_lance(lance)
+        if valor > self.carteira:
+            raise ValueError("Não pode propor um lance com valor maior que o da carteira")
+        else:
+            lance = Lance(self, valor)
+            leilao.propoe_lance(lance)
 
-        self.__carteira -= valor
+            self.__carteira -= valor
 
     @property
     def nome(self):
