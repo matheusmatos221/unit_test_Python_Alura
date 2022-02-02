@@ -24,15 +24,12 @@ class TestLeilao(TestCase):
         self.assertEqual(maior_valor_esperado, self.leilao.maior_lance)
 
     def test_nao_deve_permitir_propor_lance_em_ordem_decrescente(self):
-
         with self.assertRaises(ValueError):
-
             yuri = Usuario('yuri', 500.0)
             lance_do_yuri = Lance(yuri, 200.0)
 
             self.leilao.propoe_lance(lance_do_yuri)
             self.leilao.propoe_lance(self.lance_do_gui)
-
 
     def test_deve_retornar_o_mesmo_valor_para_o_maior_e_menor_lance_quando_leilao_tiver_apenas_um_lance(self):
         self.leilao.propoe_lance(self.lance_do_gui)
@@ -63,7 +60,6 @@ class TestLeilao(TestCase):
         quantidade_de_lances_recebido = len(self.leilao.lances)
         self.assertEqual(1, quantidade_de_lances_recebido)
 
-    # Se o ultimo usuario for diferente, deve permitir propor um lance
     def test_deve_permitir_propor_lance_caso_o_ultimo_usuario_seja_diferente(self):
         yuri = Usuario('yuri', 500.0)
         lance_yuri = Lance(yuri, 200.0)
@@ -76,8 +72,8 @@ class TestLeilao(TestCase):
         self.assertEqual(2, quantidade_lances_recebido)
 
     # Se o ultimo usuario for o mesmo(atual), não deve permitir propor o lance
-    def test_nao_deve_permitir_propro_lance_caso_o_usuario_seja_o_mesmo(self):
-        lance_do_gui200 = Lance(self.gui, 200.0)
+    def test_nao_deve_permitir_propror_lance_caso_o_usuario_seja_o_mesmo(self):
+        lance_do_gui200 = Lance(self.gui, 250.0)
         self.leilao.propoe_lance(self.lance_do_gui)
 
         with self.assertRaises(ValueError):
